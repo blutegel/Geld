@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="bank.geld.BankController"
+      spacing="10"
+      padding="10">
+
+    <HBox spacing="10">
+        <TextField fx:id="accountInput" promptText="Account Number" HBox.hgrow="ALWAYS" />
+        <TextField fx:id="amountInput" promptText="Amount" HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Button fx:id="createAccountBtn" text="Create Account" onAction="#handleCreateAccount" />
+        <Button fx:id="depositBtn" text="Deposit" onAction="#handleDeposit" />
+        <Button fx:id="withdrawBtn" text="Withdraw" onAction="#handleWithdraw" />
+        <Button fx:id="showHistoryBtn" text="Show History" onAction="#handleShowHistory" />
+        <Button fx:id="getStatementBtn" text="Get account statement" onAction="#handleGetStatement" />
+    </HBox>
+
+    <TextArea fx:id="outputArea" VBox.vgrow="ALWAYS" />
+</VBox>

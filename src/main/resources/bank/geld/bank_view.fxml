@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="505.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bank.geld.BankController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="welcomeText" minHeight="-Infinity" prefHeight="83.0" prefWidth="460.0" text="Please first click Create Account then use the newly created account number listed below in the Account Number text field to use that account for deposit, withdraw, history, statement." translateY="30.0" wrapText="true" />
+  <Button fx:id="createAccountBtn" minWidth="-Infinity" onAction="#handleCreateAccount" prefHeight="26.0" prefWidth="119.0" text="Create Account" translateX="-175.0" translateY="10.0" wrapText="true" />
+    <HBox prefHeight="50.0" prefWidth="465.0" spacing="25.0">
+     <Button fx:id="depositBtn" minWidth="-Infinity" onAction="#handleDeposit" prefHeight="50.0" prefWidth="60.0" text="Deposit" wrapText="true" />
+     <Button fx:id="withdrawBtn" minWidth="-Infinity" onAction="#handleWithdraw" prefHeight="50.0" prefWidth="70.0" text="Withdraw" wrapText="true" />
+    <Button fx:id="showHistoryBtn" minWidth="-Infinity" onAction="#handleShowHistory" prefHeight="50.0" prefWidth="60.0" text="Show History" wrapText="true" />
+     <Button fx:id="getStatementBtn" minHeight="-Infinity" onAction="#handleGetStatement" prefHeight="50.0" prefWidth="110.0" text="Get account statement" wrapText="true" />
+    </HBox>
+   <Label minHeight="-Infinity" prefHeight="80.0" prefWidth="463.0" text="Functions:" wrapText="true" />
+    <HBox spacing="10">
+        <TextField fx:id="accountInput" promptText="Account Number" HBox.hgrow="ALWAYS" />
+        <TextField fx:id="amountInput" promptText="Amount" HBox.hgrow="ALWAYS" />
+    </HBox>
+
+
+    <HBox spacing="10" />
+    <TextArea fx:id="outputArea" minHeight="-Infinity" prefHeight="300.0" prefWidth="465.0" VBox.vgrow="ALWAYS" />
+</VBox>
