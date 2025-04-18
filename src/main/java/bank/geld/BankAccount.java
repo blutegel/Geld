@@ -10,8 +10,8 @@ public class BankAccount {
 
     public BankAccount(int accountNumber) {
         this.accountNumber = accountNumber;
-        this.balance = 0.0;
-        transactionHistory.add("Account created with balance $0.0");
+        this.balance = 0.00;
+        transactionHistory.add("Account created with balance $0.00");
     }
 
     public int getAccountNumber() {
@@ -21,18 +21,18 @@ public class BankAccount {
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
-            transactionHistory.add("You entered this amount to be deposited: $" + amount);
+            transactionHistory.add("Deposit attempt of : $" + amount + " has been processed.");
         } else {
-            transactionHistory.add("Failed deposit attempt: $" + amount + " You need to use a positive value.");
+            transactionHistory.add("Failed deposit attempt: $" + amount + " Please use a positive value.");
         }
     }
 
     public void withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
-            transactionHistory.add("You entered this amount to be withdrawn: $" + amount);
+            transactionHistory.add("Withdraw attempt of : $" + amount + " has been processed.");
         } else {
-            transactionHistory.add("Failed withdrawal attempt: $" + amount + " You need to use a positive value.");
+            transactionHistory.add("Failed withdrawal attempt: $" + amount + "  Please use a positive value.");
         }
     }
 
@@ -45,7 +45,6 @@ public class BankAccount {
     }
 
     public String getStatement() {
-        return "ID: " + accountNumber + "\nAccount Balance: $" + String.format("%.2f", balance) +
-                "\nHistory of Transactions:\n" + transactionHistory.toString();
+        return "ID: " + accountNumber + "\nAccount Balance: $" + String.format("%.2f", balance);
     }
 }

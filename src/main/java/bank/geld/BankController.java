@@ -36,7 +36,6 @@ public class BankController {
 
     @FXML
     private void handleDeposit() {
-        try {
             int accNum = Integer.parseInt(accountInput.getText());
             double amount = Double.parseDouble(amountInput.getText());
             BankAccount acc = findAccountById(accNum);
@@ -46,14 +45,10 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
-        } catch (NumberFormatException ex) {
-            outputArea.appendText("Please enter valid numbers.\n");
-        }
     }
 
     @FXML
     private void handleWithdraw() {
-        try {
             int accNum = Integer.parseInt(accountInput.getText());
             double amount = Double.parseDouble(amountInput.getText());
             BankAccount acc = findAccountById(accNum);
@@ -63,14 +58,10 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
-        } catch (NumberFormatException ex) {
-            outputArea.appendText("Please enter valid numbers.\n");
-        }
     }
 
     @FXML
     private void handleShowHistory() {
-        try {
             int accNum = Integer.parseInt(accountInput.getText());
             BankAccount acc = findAccountById(accNum);
             if (acc != null) {
@@ -78,14 +69,10 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
-        } catch (NumberFormatException ex) {
-            outputArea.appendText("Please enter a valid account number.\n");
-        }
     }
 
     @FXML
     private void handleGetStatement() {
-        try {
             int accNum = Integer.parseInt(accountInput.getText());
             BankAccount acc = findAccountById(accNum);
             if (acc != null) {
@@ -93,18 +80,14 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
-        } catch (NumberFormatException ex) {
-            outputArea.appendText("Please enter a valid account number.\n");
-        }
     }
 
-    // Method to find account by ID in the ArrayList
     private BankAccount findAccountById(int accountId) {
         for (BankAccount account : accounts) {
             if (account.getAccountNumber() == accountId) {
                 return account;
             }
         }
-        return null; // Account not found
+        return null;
     }
 }
