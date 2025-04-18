@@ -5,6 +5,9 @@
  */
 package bank.geld;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +84,13 @@ public class BankAccount {
      * @return
      */
     public String getStatement() {
-        return "ID: " + accountNumber + "\nAccount Balance: $" + String.format("%.2f", balance);
+
+        // Create a new Alert of type INFORMATION for a popup
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Bank Statement");
+        alert.setHeaderText("Your Account Information is listed below:");
+        alert.setContentText("Account Number: " + accountNumber + "\nAccount Balance: $" + String.format("%.2f", balance));
+        alert.showAndWait();
+        return "Account Number: " + accountNumber + "\nAccount Balance: $" + String.format("%.2f", balance);
     }
 }

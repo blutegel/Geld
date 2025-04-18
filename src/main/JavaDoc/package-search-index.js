@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"bank.geld","l":"bank.geld"}];updateSearchResults();

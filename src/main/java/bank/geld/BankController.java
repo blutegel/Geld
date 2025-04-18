@@ -5,10 +5,16 @@
  */
 package bank.geld;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ListCell;
+import javafx.util.StringConverter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,18 +31,61 @@ public class BankController {
     @FXML private Button showHistoryBtn;
     @FXML private Button getStatementBtn;
     @FXML private TextArea outputArea;
+    @FXML public ComboBox<BankAccount> comboBox;
+    @FXML private Button showAccountBtn;
 
     /**
-     * Main array list for the keeping of all transaction items and the initial start for bank account numbers.
+     * Main array list for the keeping of all transaction items
+     * and the initial start for bank account numbers and list for drop down menu.
      */
     private final List<BankAccount> accounts = new ArrayList<>();
+    private ObservableList<BankAccount> observableAccounts = FXCollections.observableArrayList();
     private int nextAccountNumber = 1001;
 
     /**
-     * Text output area for the results of the operations of the GUI
+     * Screen display (TextArea) for the methods being used in the application.
      */
     @FXML
     private void initialize() {
+        comboBox.setItems(observableAccounts);
+
+        // Set up a cell factory to display BankAccount objects as strings
+        comboBox.setCellFactory(param -> new ListCell<BankAccount>() {
+            @Override
+            protected void updateItem(BankAccount item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText("Account: " + item.getAccountNumber());
+                }
+            }
+        });
+
+        // Set up a converter for the combobox selected item
+        comboBox.setConverter(new StringConverter<BankAccount>() {
+            @Override
+            public String toString(BankAccount account) {
+                if (account == null) {
+                    return null;
+                }
+                return "Account: " + account.getAccountNumber();
+            }
+            @Override
+            public BankAccount fromString(String string) {
+                // Needed for this converter to run
+                return null;
+            }
+        }
+        );
+        // Add a listener to update the accountInput text field when an account is selected
+        comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                accountInput.setText(String.valueOf(newValue.getAccountNumber()));
+            }
+        }
+        );
+        //Limit the output Screen to be only populated by methods not the end user
         outputArea.setEditable(false);
     }
 
@@ -49,7 +98,19 @@ public class BankController {
     private void handleCreateAccount() {
         BankAccount account = new BankAccount(nextAccountNumber++);
         accounts.add(account);
+        observableAccounts.add(account);
         outputArea.appendText("Created account: " + account.getAccountNumber() + "\n");
+    }
+
+    /**
+     * Method to update the ComboBox with the current list of accounts
+     */
+    @FXML
+    private void handleShowAccountList() {
+        observableAccounts.clear();
+        observableAccounts.addAll(accounts);
+        comboBox.setItems(observableAccounts);
+        outputArea.appendText("Account list has been updated.\n");
     }
 
     /**
@@ -90,17 +151,17 @@ public class BankController {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
         } catch (NumberFormatException e) {
-            outputArea.appendText("Field cannot be blank.  Please enter a value to withdraw.");
+            outputArea.appendText("Field cannot be blank. Please enter a value to withdraw.\n");
         }
     }
 
     /**
-     * Method to handle the show history button action.  Pulling text from input field
+     * Method to handle the show history button action. Pulling text from input field
      * to then run through the account number check to allow the action to proceed.
      */
     @FXML
     private void handleShowHistory() {
-        try{
+        try {
             int accNum = Integer.parseInt(accountInput.getText());
             BankAccount acc = findAccountById(accNum);
             if (acc != null) {
@@ -108,30 +169,29 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
-        } catch(NumberFormatException e){
-            outputArea.appendText("This field cannot be blank.  Please enter a value for the account number.");
+        } catch (NumberFormatException e) {
+            outputArea.appendText("This field cannot be blank. Please enter a value for the account number.\n");
         }
     }
 
     /**
-     * Method to handle the get statement button action.  Pulling text from the input box
+     * Method to handle the get statement button action. Pulling text from the input box
      * and checking the value to be sure the account is present and created. Then the action is allowed to proceed.
      */
     @FXML
     private void handleGetStatement() {
-            try {
-                int accNum = Integer.parseInt(accountInput.getText());
-
-                BankAccount acc = findAccountById(accNum);
-                if (acc != null) {
-                    outputArea.appendText("Account Statement:\n" + acc.getStatement() + "\n");
-                } else {
-                    outputArea.appendText("Account " + accNum + " not found.\n");
-                }
-            } catch(NumberFormatException e){
-                outputArea.appendText("This field cannot be blank.  Please enter a value for the account number.");
+        try {
+            int accNum = Integer.parseInt(accountInput.getText());
+            BankAccount acc = findAccountById(accNum);
+            if (acc != null) {
+                outputArea.appendText("Account Statement:\n" + acc.getStatement() + "\n");
+            } else {
+                outputArea.appendText("Account " + accNum + " not found.\n");
             }
+        } catch (NumberFormatException e) {
+            outputArea.appendText("This field cannot be blank. Please enter a value for the account number.\n");
         }
+    }
 
     /**
      * Method to look through the array list for the account number
