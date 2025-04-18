@@ -1,14 +1,21 @@
+/**
+ * Description Main controller for adding GUI elements and the methods they use for the Bank Application
+ * @author James Rohr
+ * @since 4-18-25
+ */
 package bank.geld;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.text.TextFlow;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main class for the controller for the GUI items and methods
+ * @since 4-18-25
+ */
 public class BankController {
     @FXML private TextField accountInput;
     @FXML private TextField amountInput;
@@ -19,14 +26,25 @@ public class BankController {
     @FXML private Button getStatementBtn;
     @FXML private TextArea outputArea;
 
+    /**
+     * Main array list for the keeping of all transaction items and the initial start for bank account numbers.
+     */
     private final List<BankAccount> accounts = new ArrayList<>();
     private int nextAccountNumber = 1001;
 
+    /**
+     * Text output area for the results of the operations of the GUI
+     */
     @FXML
     private void initialize() {
         outputArea.setEditable(false);
     }
 
+    /**
+     * Method to handle the button action to create a new account,
+     * gets account number variable and adds one to make a new account,
+     * i.e. 1001 if no other account is present. Displays in TextArea.
+     */
     @FXML
     private void handleCreateAccount() {
         BankAccount account = new BankAccount(nextAccountNumber++);
@@ -34,8 +52,13 @@ public class BankController {
         outputArea.appendText("Created account: " + account.getAccountNumber() + "\n");
     }
 
+    /**
+     * Method to handle the deposit button action to deposit the
+     * amount listed in the amount field and update the transaction history array list. Does error check to be sure amount is positive
+     */
     @FXML
     private void handleDeposit() {
+        try {
             int accNum = Integer.parseInt(accountInput.getText());
             double amount = Double.parseDouble(amountInput.getText());
             BankAccount acc = findAccountById(accNum);
@@ -45,10 +68,18 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
+        } catch (NumberFormatException e) {
+            outputArea.appendText("Field cannot be blank. Please enter a value to deposit.\n");
+        }
     }
 
+    /**
+     * Method to handle the withdraw button actions. Making sure that
+     * there is a valid account number to allow the action to work.
+     */
     @FXML
     private void handleWithdraw() {
+        try {
             int accNum = Integer.parseInt(accountInput.getText());
             double amount = Double.parseDouble(amountInput.getText());
             BankAccount acc = findAccountById(accNum);
@@ -58,10 +89,18 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
+        } catch (NumberFormatException e) {
+            outputArea.appendText("Field cannot be blank.  Please enter a value to withdraw.");
+        }
     }
 
+    /**
+     * Method to handle the show history button action.  Pulling text from input field
+     * to then run through the account number check to allow the action to proceed.
+     */
     @FXML
     private void handleShowHistory() {
+        try{
             int accNum = Integer.parseInt(accountInput.getText());
             BankAccount acc = findAccountById(accNum);
             if (acc != null) {
@@ -69,19 +108,37 @@ public class BankController {
             } else {
                 outputArea.appendText("Account " + accNum + " not found.\n");
             }
+        } catch(NumberFormatException e){
+            outputArea.appendText("This field cannot be blank.  Please enter a value for the account number.");
+        }
     }
 
+    /**
+     * Method to handle the get statement button action.  Pulling text from the input box
+     * and checking the value to be sure the account is present and created. Then the action is allowed to proceed.
+     */
     @FXML
     private void handleGetStatement() {
-            int accNum = Integer.parseInt(accountInput.getText());
-            BankAccount acc = findAccountById(accNum);
-            if (acc != null) {
-                outputArea.appendText("Account Statement:\n" + acc.getStatement() + "\n");
-            } else {
-                outputArea.appendText("Account " + accNum + " not found.\n");
-            }
-    }
+            try {
+                int accNum = Integer.parseInt(accountInput.getText());
 
+                BankAccount acc = findAccountById(accNum);
+                if (acc != null) {
+                    outputArea.appendText("Account Statement:\n" + acc.getStatement() + "\n");
+                } else {
+                    outputArea.appendText("Account " + accNum + " not found.\n");
+                }
+            } catch(NumberFormatException e){
+                outputArea.appendText("This field cannot be blank.  Please enter a value for the account number.");
+            }
+        }
+
+    /**
+     * Method to look through the array list for the account number
+     * to be sure its present and already created.
+     * @param accountId
+     * @return the account ID
+     */
     private BankAccount findAccountById(int accountId) {
         for (BankAccount account : accounts) {
             if (account.getAccountNumber() == accountId) {
