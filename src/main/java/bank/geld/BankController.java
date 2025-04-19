@@ -44,6 +44,8 @@ public class BankController {
 
     /**
      * Screen display (TextArea) for the methods being used in the application.
+     * Added ComboBox for displaying account numbers, also needed a cell factory and a listener to
+     * update accountInput with the selected account from the comboBox.
      */
     @FXML
     private void initialize() {
