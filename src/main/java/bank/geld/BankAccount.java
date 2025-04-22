@@ -81,7 +81,7 @@ public class BankAccount {
      * Main method to get the account statement of the account.
      * Shows the account number and current balance after all
      * other bank operations were completed.
-     * @return
+     * @return popup of the bank statement, also pushes text to display area.
      */
     public String getStatement() {
 
