@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Main class for the controller for the GUI items and methods
- * @since 4-18-25
+ *
  */
 public class BankController {
     @FXML private TextField accountInput;
